@@ -8,16 +8,22 @@ find_package(OpenSSL COMPONENTS Crypto)
 # make cache variables for install destinations
 include(GNUInstallDirs)
 
-add_library(ftplibpp SHARED
-    src/ftplib.cpp
-    src/ftplib.h
+add_library(ftplibpp SHARED 
+  src/ftplib.cpp
+)
+
+target_sources(ftplibpp INTERFACE
+    FILE_SET HEADERS 
+    FILES inc/ftplib.h
 )
 
 target_include_directories(ftplibpp INTERFACE
-                           "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+                           "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/inc"
                            "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
         ${OPENSSL_INCLUDE_DIR}
 )
+
+target_include_directories(ftplibpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 target_link_libraries(ftplibpp INTERFACE
         ${OPENSSL_CRYPTO_LIBRARIES}
