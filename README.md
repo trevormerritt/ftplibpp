@@ -6,17 +6,13 @@ ftplibpp contains a c++ class providing ftp client functionality. It supports al
 
 ## Build
 
-### Docker (Linux)
+### cmake
 
 ```
-docker build -t build-env .
-docker run -e -v $PWD:/src -w /src build-env make
-```
-
-### MacOS without SSL
-
-```
-NOSSL=1 make
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 ## Documentation
