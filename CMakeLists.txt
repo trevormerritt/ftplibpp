@@ -3,6 +3,8 @@ project(ftplibpp
     VERSION 2.0.6 # 240509
     LANGUAGES CXX C
 )
+
+#  ============ Configure Stage ============
 find_package(OpenSSL COMPONENTS Crypto)
 
 # make cache variables for install destinations
@@ -30,21 +32,37 @@ target_link_libraries(ftplibpp INTERFACE
         ${OPENSSL_SSL_LIBRARIES}
 )
 
+
+# ============ Install Stage ============
+
 include(GNUInstallDirs)
+
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/src
     CACHE PATH "Location of header files" )
 set(SYSCONFIG_INSTALL_DIR ${CMAKE_INSTALL_SYSCONFDIR}/ftplibpp
     CACHE PATH "Location of configuration files" )
 #...
+# install header
+install(FILES ${Headers} DESTINATION include)
+
+install(TARGETS ftplibpp
+        EXPORT ftplibppTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include
+        FILE_SET HEADERS
+        )
+
 include(CMakePackageConfigHelpers)
-configure_package_config_file(src/ftplibppConfig.cmake.in
+configure_package_config_file(cmake/ftplibppConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/ftplibppConfig.cmake
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ftplibpp
   PATH_VARS INCLUDE_INSTALL_DIR SYSCONFIG_INSTALL_DIR)
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/ftplibppConfigVersion.cmake
-  VERSION 2.0.6
-  COMPATIBILITY SameMajorVersion )
+  VERSION ${PACKAGE_VERSION}
+  COMPATIBILITY AnyNewerVersion)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ftplibppConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/ftplibppConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ftplibpp )
+   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ftplibpp )
