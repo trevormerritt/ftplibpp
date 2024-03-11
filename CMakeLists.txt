@@ -4,6 +4,8 @@ project(ftplibpp
     LANGUAGES CXX C
 )
 
+include("cmake/ccache.cmake")
+
 #  ============ Configure Stage ============
 find_package(OpenSSL COMPONENTS Crypto)
 
@@ -21,7 +23,7 @@ target_sources(ftplibpp INTERFACE
 
 target_include_directories(ftplibpp INTERFACE
                            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/inc"
-                           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>/inc"
+                           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
         ${OPENSSL_INCLUDE_DIR}
 )
 
@@ -65,5 +67,3 @@ write_basic_package_version_file(
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ftplibppConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/ftplibppConfigVersion.cmake
    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ftplibpp )
-
-#message(FATAL_ERROR "${INCLUDE_INSTALL_DIR}")
