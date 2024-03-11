@@ -29,7 +29,7 @@ target_include_directories(ftplibpp INTERFACE
 
 target_include_directories(ftplibpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
-target_link_libraries(ftplibpp INTERFACE
+target_link_libraries(ftplibpp
         ${OPENSSL_CRYPTO_LIBRARIES}
         ${OPENSSL_SSL_LIBRARIES}
 )
